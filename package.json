@@ -2,7 +2,7 @@
   "name": "storefront",
   "version": "1.0.0",
   "description": "StoreFront",
-  "author": "hanzhouca <han@hanzhou.ca>",
+  "author": "Han Zhou and Jin Li",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
