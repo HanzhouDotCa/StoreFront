@@ -14,7 +14,8 @@ const store = new Vuex.Store({
   state: {
     s: '',
     storeID: '',
-    tableID: ''
+    tableID: '',
+    ordered: []
   },
   mutations: {
     updateStore (state, store) {
@@ -27,7 +28,12 @@ const store = new Vuex.Store({
       state.tableID = tableID
     },
     addItem (state, item) {
-      state.items.push(item)
+      state.ordered.push(item)
+      console.log(state.ordered)
+    },
+    removeItem (state, item) {
+      state.ordered.splice(state.ordered.indexOf(item), 1)
+      console.log(state.ordered)
     }
   }
 })

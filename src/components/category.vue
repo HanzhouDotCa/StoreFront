@@ -1,7 +1,7 @@
 <template>
 <div class="Categories">
 <router-link :to="{ name: 'nav' }" class="btn btn-default btn-sm">Main View</router-link>
-<ul v-for="item in $store.state.s.menu" :key="item._id" class="list-unstyled">
+<ul v-for="(item, index) in $store.state.s.menu" class="list-unstyled">
 <li v-if="item.category==$route.params.categoryName">
 <item :item="item"></item>
 </li>
@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
 .Categories {
-  padding-top: 50px
+  padding-top: 60px
 }
 
 .btn-sm {

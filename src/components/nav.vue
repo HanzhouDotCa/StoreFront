@@ -27,6 +27,6 @@ export default {
 
 <style scoped>
 .navigator {
-  padding-top: 50px
+  padding-top: 70px
 }
 </style>

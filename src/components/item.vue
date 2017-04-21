@@ -29,8 +29,10 @@ export default {
   },
   methods: {
     removeItem (item) {
+      this.$store.commit('removeItem', item)
     },
     addItem (item) {
+      this.$store.commit('addItem', item)
     },
     addVariation (index) {
     },

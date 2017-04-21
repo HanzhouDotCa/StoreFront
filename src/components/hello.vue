@@ -1,3 +1,8 @@
+<template>
+<div class="hide">
+</div>
+</template>
+
 <script>
 export default {
   name: 'hello',
@@ -13,7 +18,6 @@ export default {
   mounted () {
     this.$http.get('https://damp-shelf-11781.herokuapp.com/api/r/' + this.$store.state.storeID).then(res => {
       this.$store.commit('updateStore', res.body)
-      console.log('test')
       this.$router.push('/menu')
     }, res => {
       console.log('err')
