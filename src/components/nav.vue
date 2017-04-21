@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="navigator">
 <ul v-for="category in $store.state.s.category" class="list-unstyled">
   <li>
     <router-link :to="{ name: 'category', params: { categoryName: category.routeName }}">
@@ -24,3 +24,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.navigator {
+  padding-top: 50px
+}
+</style>

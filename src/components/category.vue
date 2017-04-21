@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="Categories">
 <router-link :to="{ name: 'nav' }" class="btn btn-default btn-sm">Main View</router-link>
 <ul v-for="item in $store.state.s.menu" :key="item._id" class="list-unstyled">
 <li v-if="item.category==$route.params.categoryName">
@@ -27,3 +27,19 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.Categories {
+  padding-top: 50px
+}
+
+.btn-sm {
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.h1 {
+line-height: 5px; 
+
+}
+</style>
