@@ -23,6 +23,12 @@ const store = new Vuex.Store({
       var t = 0
       for (var i = 0; i < state.ordered.length; i++) {
         t += state.ordered[i].price
+        var v = 0
+        for (var j = 0; j < state.ordered[i].variations.length; j++) {
+          v += state.ordered[i].variations[j].options[state.ordered[i].variationChoice[j]].price
+          // item.variations[i].options[item.variationChoice[i]].price
+        }
+        t += v
       }
       return t
     },
