@@ -10,7 +10,7 @@
       </div>
 
       <div class="modal-body">
-        <div v-if="ordered.count>0">
+        <div v-if="this.$store.state.ordered.length>0">
           <table class="table table-striped">
             <tr>
               <th>Item</th>
@@ -18,26 +18,19 @@
               <th>Total</th>
               <th></th>
             </tr>
-            <tr v-for="item in ordered.items">
-              <td>{{item.item.name}}
-              <ul v-for="vc in item.item.variationChoices" class="list-unstyled">
-                 <li>
-                  <ul v-for="(vcc, vcci) in vc"><li>{{item.item.variations[vcci].name}}: &nbsp {{item.item.variations[vcci].options[vcc].name}}</li></ul>
-                </li>
-            </ul>
-
-              </td>
-              <td>{{item.item.quantity}}</td>
-              <!--<td>${{item.item.price*item.item.quantity}}</td>-->
-              <td>${{getTotal(item.index)}}</td>
+            <tr v-for="item in ordered">
+              <td>{{item.name}}</td>
+              <td>{{$store.getters.quantity(item)}}</td>
+              <td>${{item.price}}</td>
               <td align="middle"><button class="btn btn-danger btn-sm" @click="$emit('clear',item.index)">x</button></td>
             </tr>
           </table>
+
           <div align="right">
           <table>
-            <tr><td align="right"><b>Subtotal: &nbsp &nbsp</b></td><td>${{ordered.subtotal.toFixed(2)}}</td></tr>
-            <tr><td align="right"><b>GST:  &nbsp &nbsp</b></td><td>${{ordered.tax.toFixed(2)}}</td></tr>
-            <tr><td align="right"><b>Total:  &nbsp &nbsp</b></td><td>${{ordered.total.toFixed(2) }}</td></tr>
+            <tr><td align="right"><b>Subtotal: &nbsp &nbsp</b></td><td>${{this.$store.getters.subtotal.toFixed(2)}}</td></tr>
+            <tr><td align="right"><b>GST:  &nbsp &nbsp</b></td><td>${{(this.$store.getters.subtotal*0.05).toFixed(2)}}</td></tr>
+            <tr><td align="right"><b>Total:  &nbsp &nbsp</b></td><td>${{(this.$store.getters.subtotal*1.05).toFixed(2)}}</td></tr>
           </table>
           </div>
         </div>
@@ -58,7 +51,7 @@
 </template>
 
 <script>
-
+import _ from 'lodash'
 
 export default {
   name: 'checkout',
@@ -69,30 +62,20 @@ export default {
   },
   computed: {
     ordered: function () {
-      var items = []
-      var count = 0
-      var subtotal = 0
-      var tax = 0
-      var total = 0
-      for (var i = 0; this.items && i < this.items.length; ++i) {
-        if (this.items[i].quantity > 0) {
-          items.push({item: this.items[i], index: i})
-          count += 1
-          subtotal += this.getTotal(i)
-        }
-      }
-      tax = subtotal * 0.05
-      total = subtotal * 1.05
-      return {
-        items: items,
-        count: count,
-        subtotal: subtotal,
-        tax: tax,
-        total: total
-      }
+      return _.uniq(this.$store.state.ordered)
     }
   },
   methods: {
+    submitOrder () {
+      this.$http.post('https://damp-shelf-11781.herokuapp.com/api/order/', {'storeID': this.$store.state.storeID, 'tableId': this.$store.state.tableID, 'items': this.$store.state.ordered}).then(response => {
+        console.log('success')
+        this.$store.commit('clearOrdered')
+        this.$emit('close')
+        console.log(this.items)
+      }, response => {
+        console.log('err')
+      })
+    }
   }
 }
 </script>

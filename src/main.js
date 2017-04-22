@@ -18,6 +18,24 @@ const store = new Vuex.Store({
     tableID: '',
     ordered: []
   },
+  getters: {
+    subtotal: function (state) {
+      var t = 0
+      for (var i = 0; i < state.ordered.length; i++) {
+        t += state.ordered[i].price
+      }
+      return t
+    },
+    quantity: (state, getters) => (item) => {
+      var q = 0
+      for (var i = 0; i < state.ordered.length; i++) {
+        if (state.ordered[i]._id === item._id) {
+          q++
+        }
+      }
+      return q
+    }
+  },
   mutations: {
     updateStore (state, store) {
       state.s = store
@@ -39,6 +57,9 @@ const store = new Vuex.Store({
         state.ordered.splice(i, 1)
       }
       console.log(state.ordered)
+    },
+    clearOrdered (state) {
+      state.ordered = []
     }
   }
 })
