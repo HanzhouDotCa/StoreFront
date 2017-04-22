@@ -48,10 +48,12 @@ const store = new Vuex.Store({
     },
     addItem (state, item) {
       state.ordered.push(item)
+      console.log(state.ordered)
     },
     removeItem (state, item) {
-      var found = _.findLast(state.ordered, item)
-      if (found === item) {
+      var found = _.findLast(state.ordered, {'_id': item._id})
+      console.log(found)
+      if (typeof found === 'object') {
         var i = _.indexOf(state.ordered, found)
         state.ordered.splice(i, 1)
       }

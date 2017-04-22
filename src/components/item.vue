@@ -12,14 +12,14 @@
           <br />
           <div class="btn-group" role="group" aria-label="...">
             <button type="button" class="btn btn-default" @click="removeItem(item)">-</button>
-            <button type="button" class="btn btn-default">{{this.$store.getters.quantity(item)}}</button>
+            <button type="button" class="btn btn-default" @click="showOrderedVariation = !showOrderedVariation">{{quantity}}</button>
             <button type="button" class="btn btn-default" @click="addItem(item)">+</button>
           </div>
         </div>
       </div>
   </div>
 
-  <div v-if="showAddVariation" class="well well-sm">
+  <div v-if="showAddVariation" class="well well-sm" style="margin-bottom: 2px">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12" align="left">
         <ul v-for="(variation, variationIndex) in item.variations" class="list-unstyled">
@@ -38,17 +38,41 @@
       </div>
   </div>
 
+  <div v-if="showOrderedVariation && quantity > 0" class="well well-sm" style="margin-bottom: 2px">
+        <table class="table table-striped">
+          <tr>
+            <th>&nbsp</th>
+            <th v-for="variation in item.variations">{{variation.name}}</th>
+          </tr>
+          <tr v-for="(item, i) in ordered">
+            <td>{{item.name}} {{i+1}}</td>
+            <td v-for="(variation, index) in item.variations">{{variation.options[item.variationChoice[index]].name}}</td>
+            <td align="middle"><button class="btn btn-danger btn-sm" @click="removeItem(item)">x</button></td>
+          </tr>
+        </table>
+  </div>
+
 </div>
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
   name: 'item',
   props: ['item'],
   data () {
     return {
       showAddVariation: false,
+      showOrderedVariation: false,
       variationChoice: []
+    }
+  },
+  computed: {
+    quantity: function () {
+      return this.$store.getters.quantity(this.item)
+    },
+    ordered: function () {
+      return _.filter(this.$store.state.ordered, this.item)
     }
   },
   mounted () {
@@ -67,10 +91,10 @@ export default {
       }
     },
     addVariation () {
-      var newItem = this.item
-      newItem.variationChoice = this.variationChoice
+      var newItem = JSON.parse(JSON.stringify(this.item))
+      newItem.variationChoice = JSON.parse(JSON.stringify(this.variationChoice))
       this.$store.commit('addItem', newItem)
-      this.clearVariation
+      this.clearVariation()
       this.showAddVariation = false
     },
     clearVariation () {
