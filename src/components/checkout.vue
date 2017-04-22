@@ -68,10 +68,8 @@ export default {
   methods: {
     submitOrder () {
       this.$http.post('https://damp-shelf-11781.herokuapp.com/api/order/', {'storeID': this.$store.state.storeID, 'tableId': this.$store.state.tableID, 'items': this.$store.state.ordered}).then(response => {
-        console.log('success')
         this.$store.commit('clearOrdered')
         this.$emit('close')
-        console.log(this.items)
       }, response => {
         console.log('err')
       })
