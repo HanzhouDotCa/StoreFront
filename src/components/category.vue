@@ -1,6 +1,6 @@
 <template>
 <div class="Categories">
-<router-link :to="{ name: 'nav' }" class="btn btn-default btn-sm">Main View</router-link>
+<router-link :to="{ name: 'nav' }" class="btn btn-default btn-sm"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> &nbsp Main View</router-link>
 <ul v-for="(item, index) in $store.state.s.menu" class="list-unstyled">
 <li v-if="item.category==$route.params.categoryName">
 <item :item="item"></item>
