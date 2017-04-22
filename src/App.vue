@@ -21,8 +21,6 @@ export default {
   components: {checkoutButton},
   data () {
     return {
-      items: '',
-      storeID: '58e482d44e108d09fbb4ee05'
     }
   }
 }

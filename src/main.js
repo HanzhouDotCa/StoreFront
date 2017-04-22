@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
+import _ from 'lodash'
 
 Vue.use(VueResource)
 Vue.use(Vuex)
@@ -32,7 +33,11 @@ const store = new Vuex.Store({
       console.log(state.ordered)
     },
     removeItem (state, item) {
-      state.ordered.splice(state.ordered.indexOf(item), 1)
+      var found = _.findLast(state.ordered, item)
+      if (found === item) {
+        var i = _.indexOf(state.ordered, found)
+        state.ordered.splice(i, 1)
+      }
       console.log(state.ordered)
     }
   }
