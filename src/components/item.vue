@@ -11,7 +11,7 @@
         <br />
         <div class="btn-group" role="group" aria-label="...">
           <button type="button" class="btn btn-default" @click="removeItem(item)">-</button>
-          <button type="button" class="btn btn-default">{{item.quantity}}</button>
+          <button type="button" class="btn btn-default">{{quantity}}</button>
           <button type="button" class="btn btn-default" @click="addItem(item)">+</button>
         </div>
       </div>
@@ -25,6 +25,17 @@ export default {
   props: ['item'],
   data () {
     return {
+    }
+  },
+  computed: {
+    quantity: function () {
+      var q = 0
+      for (var i = 0; i < this.$store.state.ordered.length; i++) {
+        if (this.$store.state.ordered[i]._id === this.item._id) {
+          q++
+        }
+      }
+      return q
     }
   },
   methods: {
