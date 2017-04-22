@@ -18,11 +18,18 @@
               <th>Total</th>
               <th></th>
             </tr>
-            <tr v-for="item in ordered">
-              <td>{{item.name}}</td>
-              <td>{{$store.getters.quantity(item)}}</td>
-              <td>${{item.price}}</td>
-              <td align="middle"><button class="btn btn-danger btn-sm" @click="$emit('clear',item.index)">x</button></td>
+            <tr v-for="(item,i) in ordered">
+              <td>{{item.name}}
+              <div v-if="item.variations.length>0">
+              <ul v-for="(variation, index) in item.variations" class="list-unstyled" style="margin-bottom: 1px">
+              <li >&nbsp &nbsp{{variation.name}}: {{variation.options[item.variationChoice[index]].name}}
+              </li></ul>
+              </div>
+              </td>              
+              <td>{{$store.getters.quantityOf(item)}}</td>
+              <td>${{price(item)}}</td>
+
+              <td align="middle"><button class="btn btn-danger btn-sm" @click="removeItem(item)">x</button></td>
             </tr>
           </table>
 
@@ -73,6 +80,16 @@ export default {
       }, response => {
         console.log('err')
       })
+    },
+    removeItem (item) {
+      this.$store.commit('removeItem', item)
+    },
+    price: function (item) {
+      var variationTotal = 0
+      for (var i = 0; i < item.variations.length; i++) {
+        variationTotal += item.variations[i].options[item.variationChoice[i]].price
+      }
+      return variationTotal + item.price
     }
   }
 }

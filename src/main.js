@@ -34,6 +34,15 @@ const store = new Vuex.Store({
         }
       }
       return q
+    },
+    quantityOf: (state, getters) => (item) => {
+      var q = 0
+      for (var i = 0; i < state.ordered.length; i++) {
+        if (state.ordered[i] === item) {
+          q++
+        }
+      }
+      return q
     }
   },
   mutations: {
@@ -48,11 +57,9 @@ const store = new Vuex.Store({
     },
     addItem (state, item) {
       state.ordered.push(item)
-      console.log(state.ordered)
     },
     removeItem (state, item) {
       var found = _.findLast(state.ordered, {'_id': item._id})
-      console.log(found)
       if (typeof found === 'object') {
         var i = _.indexOf(state.ordered, found)
         state.ordered.splice(i, 1)
