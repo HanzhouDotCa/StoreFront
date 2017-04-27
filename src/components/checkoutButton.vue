@@ -4,7 +4,7 @@
   <button class="navbar-btn" @click="showModal=true"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Order </button>
   <br />
 
-  <checkout v-if="showModal" @close="showModal = false"></checkout>
+  <checkout v-if="showModal" @close="showModal = false" @success="success()"></checkout>
 
 </div>
 </template>
@@ -21,10 +21,17 @@ export default {
     }
   },
   methods: {
+    success () {
+      this.$toasted.success('Order Submitted', {
+        theme: 'primary',
+        position: 'top-center',
+        duration: 2000
+      })
+      this.showModal = false
+    }
   }
 }
 </script>
-
 
 <style scoped>
 .navbar-btn {

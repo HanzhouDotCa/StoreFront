@@ -6,9 +6,11 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
 import _ from 'lodash'
+import Toasted from 'vue-toasted'
 
 Vue.use(VueResource)
 Vue.use(Vuex)
+Vue.use(Toasted)
 Vue.config.productionTip = false
 
 const store = new Vuex.Store({
