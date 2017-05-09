@@ -19,6 +19,8 @@
       </div>
   </div>
 
+  <variation v-if="showAddVariation" :item="item" @close="showAddVariation = false"></variation>
+<!--
   <div v-if="showAddVariation" class="well well-sm" style="margin-bottom: 2px">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12" align="left">
@@ -37,7 +39,8 @@
         </div>
       </div>
   </div>
-
+  -->
+<!--
   <div v-if="showOrderedVariation && quantity > 0" class="well well-sm" style="margin-bottom: 2px">
         <table class="table table-striped">
           <tr>
@@ -51,15 +54,18 @@
           </tr>
         </table>
   </div>
+  -->
 
 </div>
 </template>
 
 <script>
 import _ from 'lodash'
+import variation from './variation'
 export default {
   name: 'item',
   props: ['item'],
+  components: { variation },
   data () {
     return {
       showAddVariation: false,
@@ -75,10 +81,6 @@ export default {
       return _.filter(this.$store.state.ordered, this.item)
     }
   },
-  mounted () {
-    // default variation choice to the first one
-    this.clearVariation()
-  },
   methods: {
     removeItem (item) {
       this.$store.commit('removeItem', item)
@@ -89,13 +91,6 @@ export default {
       } else {
         this.$store.commit('addItem', item)
       }
-    },
-    addVariation () {
-      var newItem = JSON.parse(JSON.stringify(this.item))
-      newItem.variationChoice = JSON.parse(JSON.stringify(this.variationChoice))
-      this.$store.commit('addItem', newItem)
-      this.clearVariation()
-      this.showAddVariation = false
     },
     clearVariation () {
       for (var i = 0; i < this.item.variations.length; i++) {
