@@ -6,7 +6,7 @@
       <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" @click="$emit('close')" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        Customization
+        <h4>Customization</h4>
       </div>
 
       <div class="modal-body">
@@ -27,7 +27,27 @@
             </table>
           </div>
         </div>
+
+        <div v-if="quantity > 0">
+        <hr />
+        <h4>Already in Cart</h4>
+        <table class="table table-striped">
+        <!--
+          <tr>
+            <th>&nbsp</th>
+            <th v-for="variation in item.variations">{{variation.name}}</th>
+          </tr>
+          -->
+          <tr v-for="(item, i) in ordered">
+            <td>{{item.name}} {{i+1}}</td>
+            <td v-for="(variation, index) in item.variations">{{variation.options[item.variationChoice[index]].name}}</td>
+            <td align="middle"><button class="btn btn-danger btn-sm" @click="$store.commit('removeItem', item)">x</button></td>
+          </tr>
+        </table>
+        </div>
+
       </div>
+      
       <div class="modal-footer">
         <button class="btn btn-default" @click="$emit('close')">Cancel</button>
         <button class="btn btn-primary" @click="addItem()">Add to Cart</button>
@@ -42,12 +62,21 @@
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
   name: 'variation',
   props: ['item'],
   data () {
     return {
       variationChoice: []
+    }
+  },
+  computed: {
+    quantity: function () {
+      return this.$store.getters.quantity(this.item)
+    },
+    ordered: function () {
+      return _.filter(this.$store.state.ordered, this.item)
     }
   },
   created () {

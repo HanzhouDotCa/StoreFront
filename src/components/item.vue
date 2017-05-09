@@ -40,21 +40,8 @@
       </div>
   </div>
   -->
-<!--
-  <div v-if="showOrderedVariation && quantity > 0" class="well well-sm" style="margin-bottom: 2px">
-        <table class="table table-striped">
-          <tr>
-            <th>&nbsp</th>
-            <th v-for="variation in item.variations">{{variation.name}}</th>
-          </tr>
-          <tr v-for="(item, i) in ordered">
-            <td>{{item.name}} {{i+1}}</td>
-            <td v-for="(variation, index) in item.variations">{{variation.options[item.variationChoice[index]].name}}</td>
-            <td align="middle"><button class="btn btn-danger btn-sm" @click="removeItem(item)">x</button></td>
-          </tr>
-        </table>
-  </div>
-  -->
+
+
 
 </div>
 </template>
@@ -90,11 +77,6 @@ export default {
         this.showAddVariation = true
       } else {
         this.$store.commit('addItem', item)
-      }
-    },
-    clearVariation () {
-      for (var i = 0; i < this.item.variations.length; i++) {
-        this.variationChoice[i] = 0
       }
     }
   }
